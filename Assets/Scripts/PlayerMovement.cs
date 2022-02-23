@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Movement * dashSpeed, ForceMode.Impulse);
             Debug.Log("sep");
+            //something
 
             if (maxDashTime <= dashTime)
             {
