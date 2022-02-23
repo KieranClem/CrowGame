@@ -17,9 +17,6 @@ public class PlayerMovement : MonoBehaviour
     private GameObject[] Hearts = new GameObject[3];
 
     public float dashSpeed = 10;
-    public float maxDashTime;
-    private float dashTime = 0;
-    private bool isDashing = false;
 
     public Text scoreDisplay;
     private int score = 0;
@@ -58,31 +55,10 @@ public class PlayerMovement : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
 
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            isDashing = true;
-            dashTime = maxDashTime;
+            transform.position += Movement * dashSpeed;
         }
-
-        if(isDashing)
-        {
-            rb.AddForce(Movement * dashSpeed, ForceMode.VelocityChange);
-            Debug.Log("sep");
-
-            if (maxDashTime <= dashTime)
-            {
-                dashTime -= Time.deltaTime;
-                Debug.Log("time lower");
-            }
-            else
-            {
-                isDashing = false;
-                rb.velocity = Vector3.zero;
-                Debug.Log("time stop");
-            }
-        }
-
-
     }
 
     private void FixedUpdate()
