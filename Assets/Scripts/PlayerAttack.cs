@@ -6,6 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public Animator animator;
     public AnimationClip animationClip;
+    private PlayerMovement player;
     private float animationtime;
     float timer = 0;
     
@@ -13,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         animationtime = animationClip.length;
+        player = transform.parent.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -35,6 +37,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if(other.tag == "Enemy")
         {
+            player.AddScore(other.GetComponent<EnemyAI>().ScoreGiven);
             Destroy(other.gameObject);
         }
     }

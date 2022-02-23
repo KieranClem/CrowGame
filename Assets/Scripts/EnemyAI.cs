@@ -6,6 +6,7 @@ public class EnemyAI : MonoBehaviour
 {
     private GameObject Player;
     public float moveSpeed;
+    public int ScoreGiven;
     
     // Start is called before the first frame update
     void Start()

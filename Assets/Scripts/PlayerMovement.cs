@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     public float maxDashTime;
     private float dashTime = 0;
     private bool isDashing = false;
+
+    public Text scoreDisplay;
+    private int score = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -30,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Hearts[i] = HeartHolder.transform.GetChild(i).gameObject;
         }
+
+        scoreDisplay.text = score.ToString();
     }
 
     // Update is called once per frame
@@ -61,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(isDashing)
         {
-            rb.AddForce(Movement * dashSpeed, ForceMode.Impulse);
+            rb.AddForce(Movement * dashSpeed, ForceMode.VelocityChange);
             Debug.Log("sep");
 
             if (maxDashTime <= dashTime)
@@ -111,5 +116,11 @@ public class PlayerMovement : MonoBehaviour
             Hearts[PlayerHealth - 1].gameObject.SetActive(false);
             PlayerHealth -= 1;
         }
+    }
+
+    public void AddScore(int addScore)
+    {
+        score += addScore;
+        scoreDisplay.text = score.ToString();
     }
 }
