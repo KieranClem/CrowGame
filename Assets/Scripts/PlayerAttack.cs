@@ -38,6 +38,7 @@ public class PlayerAttack : MonoBehaviour
         if(other.tag == "Enemy")
         {
             player.AddScore(other.GetComponent<EnemyAI>().ScoreGiven);
+            other.GetComponent<EnemyAI>().enemyTracker.updateEnemiesOnScreen(other.GetComponent<EnemyAI>());
             Destroy(other.gameObject);
         }
     }

@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Text scoreDisplay;
     private int score = 0;
+
+    private bool canAttack = true;
+    private bool canBeHit = true;
     
     // Start is called before the first frame update
     void Start()
@@ -41,23 +44,34 @@ public class PlayerMovement : MonoBehaviour
         Movement.x = Input.GetAxisRaw("Horizontal");
         Movement.y = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
         {
             Attack();
         }
 
         //Look at mouse
-        Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition - transform.position);
 
-        difference.Normalize();
+        Vector3 mousePosition = Input.mousePosition;
 
-        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-        transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
+        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
+
+        transform.up = direction;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            transform.position += Movement * dashSpeed;
+
+            bool checkForWall = CheckForWall(transform.position += Movement * dashSpeed);
+            if(checkForWall)
+            {
+                PlayerDeath();
+            }
+            else
+            {
+                transform.position += Movement * dashSpeed;
+            }
+            
         }
     }
 
@@ -75,10 +89,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy")
+        if(other.tag == "Enemy" && canBeHit)
         {
             CheckHealth();
         }
+
+        if(other.tag == "FakeEnemy")
+        {
+            CancelInvoke();
+            Invoke("stunned", 0);
+            other.GetComponent<EnemyAI>().enemyTracker.updateEnemiesOnScreen(other.GetComponent<EnemyAI>());
+            Destroy(other.gameObject);
+        }
+    }
+
+    IEnumerator stunned()
+    {
+        canAttack = false;
+
+        yield return new WaitForSeconds(3);
+
+        canAttack = true;
+    }
+
+    IEnumerator invincable()
+    {
+        canBeHit = false;
+
+        yield return new WaitForSeconds(3);
+
+        canBeHit = true;
     }
 
     private void CheckHealth()
@@ -86,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
         if(PlayerHealth <= 0)
         {
             //Game over
+            PlayerDeath();
         }
         else
         {
@@ -98,5 +139,24 @@ public class PlayerMovement : MonoBehaviour
     {
         score += addScore;
         scoreDisplay.text = score.ToString();
+    }
+
+    private bool CheckForWall(Vector3 TeleportPosition)
+    {
+
+        Collider[] hitCollider = Physics.OverlapSphere(TeleportPosition, 1f);
+        if(hitCollider.Length > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void PlayerDeath()
+    {
+
     }
 }

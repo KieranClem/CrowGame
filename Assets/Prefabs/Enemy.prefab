@@ -126,3 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  ScoreGiven: 100
+  isFake: 0
+  fakeMat: {fileID: 2100000, guid: 2963334a9aa23604680a67cdd644a8e4, type: 2}
