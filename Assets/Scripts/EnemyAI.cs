@@ -9,9 +9,12 @@ public class EnemyAI : MonoBehaviour
     public int ScoreGiven;
 
     public bool isFake = false;
-    public Material fakeMat;
 
     [HideInInspector] public EnemySpawner enemyTracker;
+
+    public SpriteRenderer CrowSpirte;
+    public Transform spriteTransform;
+    private Camera cam;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +23,7 @@ public class EnemyAI : MonoBehaviour
 
         if(isFake)
         {
-            GetComponent<MeshRenderer>().material = fakeMat;
+            CrowSpirte.color = new Color(1f, 1f, 1f, 0.5f);
             this.tag = "FakeEnemy";
         }
     }
@@ -29,6 +32,8 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         transform.LookAt(Player.transform);
+        CrowSpirte.transform.rotation = Quaternion.Euler(this.transform.rotation.x, 0f, this.transform.rotation.x);
+
     }
 
     private void FixedUpdate()

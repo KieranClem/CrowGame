@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerMovement player;
     private float animationtime;
     float timer = 0;
+    public CameraShake cameraShake;
     
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
         {
             player.AddScore(other.GetComponent<EnemyAI>().ScoreGiven);
             other.GetComponent<EnemyAI>().enemyTracker.updateEnemiesOnScreen(other.GetComponent<EnemyAI>());
+            StartCoroutine(cameraShake.Shake(0.1f, .1f));
             Destroy(other.gameObject);
         }
     }

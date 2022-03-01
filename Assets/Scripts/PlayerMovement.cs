@@ -19,11 +19,15 @@ public class PlayerMovement : MonoBehaviour
     public float dashSpeed = 10;
 
     public Text scoreDisplay;
+    public Text finalScoreDisplay;
+    public Button restartButton;
     private int score = 0;
 
     private bool canAttack = true;
     private bool canBeHit = true;
-    
+
+    public CameraShake cameraShake;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         scoreDisplay.text = score.ToString();
+        finalScoreDisplay.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -123,15 +129,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckHealth()
     {
-        if(PlayerHealth <= 0)
+        PlayerHealth -= 1;
+        if (PlayerHealth <= 0)
         {
             //Game over
             PlayerDeath();
         }
         else
         {
-            Hearts[PlayerHealth - 1].gameObject.SetActive(false);
-            PlayerHealth -= 1;
+            Hearts[PlayerHealth].gameObject.SetActive(false);
+            StartCoroutine(cameraShake.Shake(0.1f, .1f));
         }
     }
 
@@ -157,6 +164,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerDeath()
     {
+        scoreDisplay.gameObject.SetActive(false);
+        finalScoreDisplay.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
 
+        finalScoreDisplay.text = "Final score: " + score.ToString();
+        Time.timeScale = 0;
     }
 }
