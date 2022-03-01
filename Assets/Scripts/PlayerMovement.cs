@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public Text scoreDisplay;
     public Text finalScoreDisplay;
     public Button restartButton;
+    public GameObject hideScreen;
     private int score = 0;
 
     private bool canAttack = true;
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         scoreDisplay.text = score.ToString();
         finalScoreDisplay.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
+        hideScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -167,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
         scoreDisplay.gameObject.SetActive(false);
         finalScoreDisplay.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
+        hideScreen.SetActive(true);
 
         finalScoreDisplay.text = "Final score: " + score.ToString();
         Time.timeScale = 0;

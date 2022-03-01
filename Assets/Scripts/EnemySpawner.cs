@@ -27,12 +27,6 @@ public class EnemySpawner : MonoBehaviour
         SpawnEnemy();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void SpawnEnemy()
     {
         List<Transform> tempList = spawnLocation;
@@ -87,9 +81,6 @@ public class EnemySpawner : MonoBehaviour
             }
             fakeEnemies.RemoveAt(enemyIndex);
         }
-
-        
-        Debug.Log(enemies.Count + " " + fakeEnemies.Count);
 
         if (enemies.Count == 0)
         {
