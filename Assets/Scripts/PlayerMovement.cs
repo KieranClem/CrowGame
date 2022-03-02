@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public Text scoreDisplay;
     public Text finalScoreDisplay;
     public Button restartButton;
+    public Button closGameButton;
     public GameObject hideScreen;
     private int score = 0;
 
@@ -42,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
         scoreDisplay.text = score.ToString();
         finalScoreDisplay.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
+        closGameButton.gameObject.SetActive(false);
         hideScreen.SetActive(false);
     }
 
@@ -169,6 +171,7 @@ public class PlayerMovement : MonoBehaviour
         scoreDisplay.gameObject.SetActive(false);
         finalScoreDisplay.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
+        closGameButton.gameObject.SetActive(true);
         hideScreen.SetActive(true);
 
         finalScoreDisplay.text = "Final score: " + score.ToString();

@@ -8,6 +8,7 @@ public class ChangeScene : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("SampleScene");
+        Time.timeScale = 1;
     }
 
     public void QuitGame()
